@@ -50,13 +50,13 @@ window.onload = function() {
 
 function decryptText() {
     var secretKey = document.getElementById("secretKey").value;
-    var encryptedText = document.getElementById("encryptedText").value;
-
+    var encryptedText = document.getElementById("plainText").value; // Use plain text field for encrypted text
+    
     try {
         var decryptedBytes = CryptoJS.AES.decrypt(encryptedText, secretKey);
         var decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
-
-        document.getElementById("encryptedText").value = decryptedText;
+        
+        document.getElementById("encryptedText").value = decryptedText; // Fill encrypted text field with decrypted text
     } catch (error) {
         alert("Decryption failed. Please make sure you entered the correct secret key.");
     }
