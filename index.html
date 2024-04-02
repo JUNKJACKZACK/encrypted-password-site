@@ -29,8 +29,14 @@ function encryptText() {
     
     var encryptedText = CryptoJS.AES.encrypt(plainText, secretKey).toString();
     
+    // Update URL with encrypted text as a query parameter
+    var url = window.location.origin + window.location.pathname;
+    var newUrl = url + "?encryptedText=" + encodeURIComponent(encryptedText);
+    window.history.pushState({path:newUrl}, '', newUrl);
+    
     document.getElementById("plainText").value = encryptedText; // Fill plain text field with encrypted text
 }
+
 
 function getEncryptedTextFromURL() {
     var urlParams = new URLSearchParams(window.location.search);
