@@ -40,11 +40,11 @@ function getEncryptedTextFromURL() {
     return urlParams.get('encryptedText');
 }
 
-// Fill textarea with encrypted text from URL
+// Fill plain text field with encrypted text from URL
 window.onload = function() {
     var encryptedText = getEncryptedTextFromURL();
     if (encryptedText) {
-        document.getElementById("encryptedText").value = encryptedText;
+        document.getElementById("plainText").value = encryptedText;
     }
 }
 
