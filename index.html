@@ -29,7 +29,7 @@ function encryptText() {
     var encryptedText = CryptoJS.AES.encrypt(plainText, secretKey).toString();
     
     // Generate URL with encrypted text as a parameter
-    var url = window.location.href.split('?')[0]; // remove existing query parameters
+    var url = "https://junkjackzack.github.io/encrypted-password-site/";
     var encryptedUrl = url + "?encryptedText=" + encodeURIComponent(encryptedText);
     window.location.href = encryptedUrl; // redirect to the new URL
 }
@@ -47,7 +47,6 @@ window.onload = function() {
         document.getElementById("encryptedText").value = encryptedText;
     }
 }
-
 
 function decryptText() {
     var secretKey = document.getElementById("secretKey").value;
