@@ -34,17 +34,29 @@ function encryptText() {
     window.location.href = encryptedUrl; // redirect to the new URL
 }
 
-// Extract encrypted text from URL parameter
+// Extract encrypted text from URL parameter and decrypt it
 function getEncryptedTextFromURL() {
     var urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('encryptedText');
+    var encryptedText = urlParams.get('encryptedText');
+    var secretKey = document.getElementById("secretKey").value;
+    
+    if (encryptedText && secretKey) {
+        try {
+            var decryptedBytes = CryptoJS.AES.decrypt(encryptedText, secretKey);
+            return decryptedBytes.toString(CryptoJS.enc.Utf8);
+        } catch (error) {
+            alert("Decryption failed. Please make sure you entered the correct secret key.");
+        }
+    }
+    
+    return null;
 }
 
-// Fill plain text field with encrypted text from URL
+// Fill plain text field with decrypted text from URL
 window.onload = function() {
-    var encryptedText = getEncryptedTextFromURL();
-    if (encryptedText) {
-        document.getElementById("plainText").value = encryptedText;
+    var decryptedText = getEncryptedTextFromURL();
+    if (decryptedText) {
+        document.getElementById("plainText").value = decryptedText;
     }
 }
 
@@ -61,6 +73,7 @@ function decryptText() {
         alert("Decryption failed. Please make sure you entered the correct secret key.");
     }
 }
+
 
 </script>
 
