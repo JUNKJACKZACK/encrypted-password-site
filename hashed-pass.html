@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Encryption and Decryption</title>
+</head>
+<body>
+
+<h1>Text Encryption and Decryption</h1>
+
+<label for="secretKey">Secret Key:</label>
+<input type="text" id="secretKey"><br><br>
+
+<label for="plainText">Plain Text:</label><br>
+<textarea id="plainText" rows="4" cols="50"></textarea><br><br>
+
+<button onclick="encryptText()">Encrypt</button>
+<button onclick="decryptText()">Decrypt</button><br><br>
+
+<label for="encryptedText">Encrypted/Decrypted Text:</label><br>
+<textarea id="encryptedText" rows="4" cols="50" readonly></textarea>
+
+<script>
+function encryptText() {
+    var secretKey = document.getElementById("secretKey").value;
+    var plainText = document.getElementById("plainText").value;
+    
+    var encryptedText = CryptoJS.AES.encrypt(plainText, secretKey).toString();
+    
+    // Generate URL with encrypted text as a parameter
+    var url = window.location.href.split('?')[0]; // remove existing query parameters
+    var encryptedUrl = url + "?encryptedText=" + encodeURIComponent(encryptedText);
+    window.location.href = encryptedUrl; // redirect to the new URL
+}
+
+// Extract encrypted text from URL parameter
+function getEncryptedTextFromURL() {
+    var urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('encryptedText');
+}
+
+// Fill textarea with encrypted text from URL
+window.onload = function() {
+    var encryptedText = getEncryptedTextFromURL();
+    if (encryptedText) {
+        document.getElementById("encryptedText").value = encryptedText;
+    }
+}
+
+
+function decryptText() {
+    var secretKey = document.getElementById("secretKey").value;
+    var encryptedText = document.getElementById("encryptedText").value;
+
+    try {
+        var decryptedBytes = CryptoJS.AES.decrypt(encryptedText, secretKey);
+        var decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+        document.getElementById("encryptedText").value = decryptedText;
+    } catch (error) {
+        alert("Decryption failed. Please make sure you entered the correct secret key.");
+    }
+}
+
+</script>
+
+<!-- Include CryptoJS library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
+</body>
+</html>
