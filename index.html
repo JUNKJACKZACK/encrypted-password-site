@@ -75,6 +75,25 @@ function decryptText() {
         alert("Decryption failed. Please make sure you entered the correct secret key.");
     }
 }
+
+window.onload = function() {
+    // Get encrypted text from URL and populate plain text field
+    var encryptedText = getEncryptedTextFromURL();
+    if (encryptedText) {
+        document.getElementById("plainText").value = encryptedText;
+        // Trigger decryption when encrypted text is present
+        decryptText();
+    }
+}
+
+// Decrypt text when Enter key is pressed in the secret key field
+document.getElementById("secretKey").addEventListener("keyup", function(event) {
+    if (event.keyCode === 13) { // Enter key
+        event.preventDefault();
+        decryptText();
+    }
+});
+
 </script>
 
 </body>
